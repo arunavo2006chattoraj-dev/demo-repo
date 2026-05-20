@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="calculator" aria-label="Calculator">
+    <input class="display" id="display" type="text" value="0" readonly />
+
+    <section class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="deleteLast()">DEL</button>
+      <button class="operator" onclick="appendValue('%')">%</button>
+      <button class="operator" onclick="appendValue('/')">/</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('*')">*</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+
+      <button class="zero" onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <button class="equals" onclick="calculate()">=</button>
+    </section>
+  </main>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function appendValue(value) {
+      if (display.value === "0" || display.value === "Error") {
+        display.value = value;
+      } else {
+        display.value += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "0";
+    }
+
+    function deleteLast() {
+      display.value = display.value.length > 1
+        ? display.value.slice(0, -1)
+        : "0";
+    }
+
+    function calculate() {
+      try {
+        const result = Function(`"use strict"; return (${display.value})`)();
+        display.value = Number.isFinite(result) ? result : "Error";
+      } catch {
+        display.value = "Error";
+      }
+    }
+  </script>
+</body>
+</html>
